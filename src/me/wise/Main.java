@@ -17,6 +17,7 @@ public class Main extends JFrame {
         frame.getContentPane().setBackground(Color.DARK_GRAY);
         frame.setLocation(550, 150);
         frame.setResizable(false);
+        frame.setDefaultCloseOperation(Frame.EXIT_ON_CLOSE);
         String imageResource = "BMRIcon.png";
         Image image = ImageIO.read(Main.class.getResourceAsStream(imageResource));
         frame.setIconImage(image);

@@ -105,7 +105,7 @@ public class Frame extends JFrame{
         JButton results = new JButton();
         results.setText("Calculate");
         results.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
-        results.setBounds(275, 575, 200, 50);
+        results.setBounds(275, 595, 200, 50);
         results.setContentAreaFilled(false);
         results.setBorderPainted(true);
         results.setFocusPainted(false);
@@ -125,7 +125,23 @@ public class Frame extends JFrame{
         copyright.setForeground(Color.BLACK);
         copyright.setBounds(5, 665, 150, 25);
 
+        // Track Progress
+        // Label
+        JLabel progressLabel = new JLabel("Track Progress: ", SwingConstants.CENTER);
+        progressLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+        progressLabel.setForeground(Color.BLACK);
+        progressLabel.setBounds(210, 512, 250, 35);
+        // CheckBox
+        JCheckBox progressTrack = new JCheckBox();
+        progressTrack.setBounds(475, 515, 35, 35);
+        progressTrack.setContentAreaFilled(false);
+        progressTrack.setBorderPainted(true);
+        progressTrack.setHorizontalAlignment(SwingConstants.CENTER);
+        progressTrack.setFocusPainted(false);
+
         // Adding Content to Frame
+        this.add(progressTrack);
+        this.add(progressLabel);
         this.add(copyright);
         this.add(convert);
         this.add(results);
@@ -226,18 +242,18 @@ public class Frame extends JFrame{
                     dialog.setIconImage(main.getIconImage());
                     dialog.setVisible(true);
 
-                    Date date = new Date();
-                    String directory = System.getProperty("user.home") + "\\Desktop\\";
-                    files.createDirectory(directory, "Progression");
-
-                    String fileName = files.createFile(directory + "Progression\\Stats-Entry#1.txt");
-                    files.writeToFile(fileName, "Date: " + date);
-                    files.writeToFile(fileName, "Gender: " + gender);
-                    files.writeToFile(fileName, "Age: " + age);
-                    files.writeToFile(fileName, "Height: " + height);
-                    files.writeToFile(fileName, "Weight: " + weight);
-                    files.writeToFile(fileName, "BMR: " + bmr);
-
+                    if(progressTrack.isSelected()) {
+                        Date date = new Date();
+                        String directory = System.getProperty("user.home") + "\\Desktop\\";
+                        files.createDirectory(directory, "Progression");
+                        String fileName = files.createFile(directory + "Progression\\Stats-Entry#1.txt");
+                        files.writeToFile(fileName, "Date: " + date);
+                        files.writeToFile(fileName, "Gender: " + gender);
+                        files.writeToFile(fileName, "Age: " + age);
+                        files.writeToFile(fileName, "Height: " + height);
+                        files.writeToFile(fileName, "Weight: " + weight);
+                        files.writeToFile(fileName, "BMR: " + bmr);
+                    }
                 }catch(NumberFormatException | IOException e) {
                     // If the user enters something other than a number then throw an invalid pop-up
                     JLabel temp = new JLabel("Invalid Input!");

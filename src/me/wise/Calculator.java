@@ -8,6 +8,7 @@ public class Calculator {
     }
 
     public int calculate(String gender, int age, double weight, int height) {
+        // This is using the Mifflin-St Jeor Equation which is the best to date that doesn't include body fat percentages
         int bmr = 0;
         if(this.main.checkMetricSystemStatus()) {
             if(gender.equalsIgnoreCase("Male")) bmr = (int) Math.round((10 * weight) + (6.25 * height) - (5 * age) + 5);
