@@ -1,14 +1,12 @@
-BMRCalculator
+##### **BMRCalculator**
 
--Very simple to use with easily tracked entries!
+- Very simple to use with easily tracked entries!
 
--Once you use it for the very first time, a new folder in your desktop will pop up with the name of "Progression". 
+- If you decide to track progress, once you calculate your BMR for the first time, a new folder in your desktop under the name of "Progression" will pop up!
 
--From here, each time you calculate your bmr, it will add a new entry of your stats to the folder!
-
-
+- From here, each time you want to calculate your BMR and have the option to track progress selected, a new entry of your stats will be added to your folder automatically!
 
 
 
 
-![Image of the GUI](https://imgur.com/28BkMUy.png)
+![Image of the GUI](https://imgur.com/MvHcUi1.png)
