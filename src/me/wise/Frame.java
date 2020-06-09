@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Frame extends JFrame{
@@ -17,7 +21,6 @@ public class Frame extends JFrame{
         this.main = instanceOne;
         this.calculator = instanceTwo;
         this.files = instanceThree;
-
         // Creating Content
         this.setLayout(null);
         // Title
@@ -165,16 +168,16 @@ public class Frame extends JFrame{
         // Convert Button Click
         convert.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(main.checkMetricSystemStatus()) {
+                if(calculator.checkMetricSystemStatus()) {
                     heightFirstNumUnit.setText("ft");
                     heightSecondNumUnit.setText("in");
                     weightUnit.setText("lbs");
-                    main.setMetricSystemOff();
+                    calculator.setMetricSystemOff();
                 }else {
-                    main.setMetricSystemOn();
+                    calculator.setMetricSystemOn();
                     heightFirstNumUnit.setText("m");
                     heightSecondNumUnit.setText("cm");
-                    weightUnit.setText("kg");
+                    weightUnit.setText("kgs");
                 }
             }
         });
@@ -199,16 +202,16 @@ public class Frame extends JFrame{
                 if(heightFirstNum.getText().length() < 1 && heightSecondNum.getText().length() > 0) heightFirstNum.setText("0");
                 else if (heightFirstNum.getText().length() > 0 && heightSecondNum.getText().length() < 1) heightSecondNum.setText("0");
 
-                String gender = "";
+                String gender;
                 if(maleOption.isSelected()) gender = "Male";
                 else gender = "Female";
                 try {
 
                     int age = Integer.parseInt(ageText.getText());
                     double weight = Double.parseDouble(weightText.getText());
-                    int height = 0;
+                    int height;
 
-                    if(main.checkMetricSystemStatus()) {
+                    if(calculator.checkMetricSystemStatus()) {
                         int meters = Integer.parseInt(heightFirstNum.getText()) * 100;
                         height = Integer.parseInt(heightSecondNum.getText()) + meters;
                     }else {
@@ -244,15 +247,40 @@ public class Frame extends JFrame{
 
                     if(progressTrack.isSelected()) {
                         Date date = new Date();
+                        SimpleDateFormat DateFor = new SimpleDateFormat("MM/dd/yyyy");
+                        String simpleDate = DateFor.format(date);
                         String directory = System.getProperty("user.home") + "\\Desktop\\";
                         files.createDirectory(directory, "Progression");
-                        String fileName = files.createFile(directory + "Progression\\Stats-Entry#1.txt");
-                        files.writeToFile(fileName, "Date: " + date);
-                        files.writeToFile(fileName, "Gender: " + gender);
-                        files.writeToFile(fileName, "Age: " + age);
-                        files.writeToFile(fileName, "Height: " + height);
-                        files.writeToFile(fileName, "Weight: " + weight);
-                        files.writeToFile(fileName, "BMR: " + bmr);
+                        String placeholder = files.createSingleFile("Progression", "README FIRST");
+                        String weightChangeFile = files.createSingleFile("Progression", "Overall-Weight_Change");
+                        String heightChangeFile = files.createSingleFile("Progression", "Overall-Height_Change");
+                        String entryFile = files.createDupeFile("Progression", "Stats-Entry#");
+                        File file = new File(placeholder);
+                        if(file.getTotalSpace() < 1) {
+                            files.writeToFile(placeholder, "README");
+                            files.writeToFile(placeholder, "As long as you stay consistent and track your progress,");
+                            files.writeToFile(placeholder, "This application will assist you on your journey!");
+                            files.writeToFile(placeholder, "However, make sure not to delete the empty file named \"Stats-Entry#\"");
+                            files.writeToFile(placeholder, "It acts as a placeholder!");
+                            files.writeToFile(placeholder, "Good luck!");
+                        }
+
+                        files.writeToFile(entryFile, "Date: " + date);
+                        files.writeToFile(entryFile, "Gender: " + gender);
+                        files.writeToFile(entryFile, "Age: " + age);
+
+                        if(calculator.checkMetricSystemStatus()) {
+                            files.writeToFile(weightChangeFile, "Date: " + simpleDate + "     |     " + "Weight (kgs): " + weight);
+                            files.writeToFile(heightChangeFile, "Date: " + simpleDate + "     |     " + "Height (cm): " + height);
+                            files.writeToFile(entryFile, "Height (cm): " + height);
+                            files.writeToFile(entryFile, "Weight (kgs): " + weight);
+                        }else{
+                            files.writeToFile(weightChangeFile, "Date: " + simpleDate + "     |     " + "Weight (lbs): " + weight);
+                            files.writeToFile(heightChangeFile, "Date: " + simpleDate + "     |     " + "Height (in): " + height);
+                            files.writeToFile(entryFile, "Height (in): " + height);
+                            files.writeToFile(entryFile, "Weight (lbs): " + weight);
+                        }
+                        files.writeToFile(entryFile, "BMR: " + bmr);
                     }
                 }catch(NumberFormatException | IOException e) {
                     // If the user enters something other than a number then throw an invalid pop-up

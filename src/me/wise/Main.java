@@ -7,10 +7,8 @@ import java.io.IOException;
 
 public class Main extends JFrame {
 
-    private boolean metricSystemOn = false;
-
     public static void main(String[] args) throws IOException {
-        Frame frame = new Frame(new Main(), new Calculator(new Main()), new Files());
+        Frame frame = new Frame(new Main(), new Calculator(), new Files());
         // Frame Customizing
         frame.setTitle("BMR Calculator");
         frame.setSize(750, 750);
@@ -22,16 +20,6 @@ public class Main extends JFrame {
         Image image = ImageIO.read(Main.class.getResourceAsStream(imageResource));
         frame.setIconImage(image);
         frame.setVisible(true);
-    }
-
-    public void setMetricSystemOn(){
-        this.metricSystemOn = true;
-    }
-    public void setMetricSystemOff(){
-        this.metricSystemOn = false;
-    }
-    public boolean checkMetricSystemStatus(){
-        return this.metricSystemOn;
     }
 
     public Image getIconImage(){

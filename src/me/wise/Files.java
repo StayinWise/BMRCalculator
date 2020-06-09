@@ -17,22 +17,33 @@ public class Files {
         System.out.println("Successfully wrote to your selected file!");
     }
 
-    public String createFile(String FileName) throws IOException{
-        String directory = System.getProperty("user.home") + "\\Desktop\\Progression\\";
-        File file = new File(FileName);
+    public String createSingleFile(String FolderName, String FileName) throws IOException {
+        String directory = System.getProperty("user.home") + "\\Desktop\\" + FolderName + "\\";
+        File file = new File(FileName + ".txt");
+        String fileName;
+        if(!file.exists()) System.out.println("File created: " + file.getName());
+        else System.out.println("File: " + file.getName() + " has already been created!");
+        fileName = directory + FileName + ".txt";
+        return fileName;
+    }
+
+    public String createDupeFile(String FolderName, String FileName) throws IOException {
+        String directory = System.getProperty("user.home") + "\\Desktop\\" + FolderName + "\\";
+        File file = new File(directory + FileName);
+
         int fileNum = 1;
         String fileName = "";
         if (file.exists() && !file.isDirectory()) {
             while (file.exists()) {
                 fileNum++;
-                file = new File(directory + "Stats-Entry#" + fileNum + ".txt");
-                fileName = directory + "Stats-Entry#" + fileNum + ".txt";
+                file = new File(directory + FileName + fileNum + ".txt");
+                fileName = directory + FileName + fileNum + ".txt";
                 System.out.println("File created: " + file.getName());
             }
         } else if (!file.exists()) {
             file.createNewFile();
             System.out.println("File created: " + file.getName());
-            fileName = directory + "Stats-Entry#" + fileNum + ".txt";
+            fileName = directory + FileName + fileNum + ".txt";
         }
         return fileName;
     }
